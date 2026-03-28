@@ -29,7 +29,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ja" className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html
+      lang="ja"
+      data-scroll-behavior="smooth"
+      className={`${geistSans.variable} ${geistMono.variable}`}
+    >
       <body className="flex min-h-dvh flex-col font-sans">
         <SiteHeader />
         <div className="flex min-h-0 flex-1 flex-col">{children}</div>

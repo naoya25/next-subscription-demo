@@ -7,7 +7,7 @@ const nav = [
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-50 h-14 shrink-0 border-b border-border/80 bg-canvas/80 backdrop-blur-md supports-[backdrop-filter]:bg-canvas/65">
+    <header className="sticky top-0 z-50 h-14 shrink-0 border-b border-border/80 bg-canvas/80 backdrop-blur-md supports-backdrop-filter:bg-canvas/65">
       <div className="mx-auto flex h-full max-w-6xl items-center justify-between px-5 sm:px-8">
         <Link
           href="/"
