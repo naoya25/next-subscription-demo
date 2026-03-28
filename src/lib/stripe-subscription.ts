@@ -1,5 +1,5 @@
-import type Stripe from "stripe";
 import { getStripe } from "@/lib/stripe";
+import type Stripe from "stripe";
 
 const ACCESS_STATUSES = new Set<Stripe.Subscription.Status>([
   "active",

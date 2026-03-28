@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
 import { listSubscriptionPlans } from "@/lib/subscription-plans";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "プラン一覧",
@@ -34,7 +34,8 @@ export default async function PlansPage() {
             プラン一覧
           </h1>
           <p className="mt-4 text-pretty text-base leading-relaxed text-muted">
-            ダッシュボード（Test mode）で作成した定期課金 Price がここに並びます。商品や価格を変えたあと、再読み込みで反映されます。
+            ダッシュボード（Test mode）で作成した定期課金 Price
+            がここに並びます。商品や価格を変えたあと、再読み込みで反映されます。
           </p>
         </header>
 
@@ -55,9 +56,12 @@ export default async function PlansPage() {
             </div>
           ) : plans.length === 0 ? (
             <div className="rounded-(--radius-card) border border-dashed border-border bg-surface/60 px-8 py-16 text-center backdrop-blur-sm">
-              <p className="font-medium text-fg">表示できるプランがありません</p>
+              <p className="font-medium text-fg">
+                表示できるプランがありません
+              </p>
               <p className="mx-auto mt-2 max-w-md text-sm text-muted">
-                Product と recurring の Price を作成し、アクティブにしてください。
+                Product と recurring の Price
+                を作成し、アクティブにしてください。
               </p>
             </div>
           ) : (
