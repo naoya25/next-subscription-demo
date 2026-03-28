@@ -1,0 +1,20 @@
+// https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+/// アプリ利用者。サブスク状態は Stripe API を都度参照し、DB には持たない。
+model User {
+  id               String   @id @default(cuid())
+  email            String?  @unique
+  name             String?
+  stripeCustomerId String?  @unique
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}

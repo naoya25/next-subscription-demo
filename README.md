@@ -17,6 +17,13 @@ npm run dev
 
 ブラウザで [http://localhost:3000](http://localhost:3000) を開く。
 
+## Prisma
+
+```bash
+npm run db:migrate   # スキーマ変更後（マイグレーション作成・適用）
+npm run db:studio    # ブラウザで DB の中身を確認
+```
+
 ## スタック（現状）
 
 - Next.js 16 · React 19 · TypeScript · Tailwind CSS · ESLint · `src/` レイアウト
