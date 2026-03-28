@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { listSubscriptionPlans } from "@/lib/subscription-plans";
 
 export const metadata: Metadata = {
@@ -21,79 +20,75 @@ export default async function PlansPage() {
   }
 
   return (
-    <div className="flex flex-col flex-1 bg-zinc-50 font-sans dark:bg-black">
-      <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-10 px-6 py-16 sm:px-8">
-        <header className="flex flex-col gap-3">
-          <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
-            サブスクリプション
+    <main className="relative flex flex-1 flex-col">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,var(--accent-muted),transparent_55%)]"
+      />
+      <div className="mx-auto w-full max-w-6xl flex-1 px-5 py-14 sm:px-8 sm:py-20">
+        <header className="max-w-2xl">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted">
+            Subscription
           </p>
-          <h1 className="text-3xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
+          <h1 className="mt-4 text-3xl font-semibold tracking-tight text-fg sm:text-4xl">
             プラン一覧
           </h1>
-          <p className="max-w-2xl text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
-            Stripe ダッシュボードのテストモードで作成した
-            定期課金プリセットがここに表示されます。商品や価格を追加・変更すると、次の読み込みで反映されます。
+          <p className="mt-4 text-pretty text-base leading-relaxed text-muted">
+            ダッシュボード（Test mode）で作成した定期課金 Price がここに並びます。商品や価格を変えたあと、再読み込みで反映されます。
           </p>
-          <Link
-            href="/"
-            className="mt-1 w-fit text-sm font-medium text-zinc-900 underline-offset-4 hover:underline dark:text-zinc-100"
-          >
-            ← トップへ
-          </Link>
         </header>
 
-        {errorMessage ? (
-          <div
-            role="alert"
-            className="rounded-2xl border border-red-200 bg-red-50 px-5 py-4 text-sm text-red-900 dark:border-red-900/50 dark:bg-red-950/40 dark:text-red-100"
-          >
-            <p className="font-medium">読み込みエラー</p>
-            <p className="mt-2 whitespace-pre-wrap opacity-90">{errorMessage}</p>
-            <p className="mt-3 text-xs opacity-80">
-              `.env.local` に `STRIPE_SECRET_KEY`（`sk_test_...`）が設定されているか、Stripe
-              CLI のターゲットと同じプロジェクトか確認してください。
-            </p>
-          </div>
-        ) : plans.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-zinc-300 bg-white px-6 py-14 text-center dark:border-zinc-700 dark:bg-zinc-950">
-            <p className="text-base font-medium text-zinc-800 dark:text-zinc-200">
-              表示できるプランがありません
-            </p>
-            <p className="mx-auto mt-2 max-w-md text-sm text-zinc-600 dark:text-zinc-400">
-              Stripe ダッシュボード（Test mode）で Product と recurring
-              Price を作成し、アクティブにしてください。
-            </p>
-          </div>
-        ) : (
-          <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {plans.map((plan) => (
-              <li key={plan.priceId}>
-                <article className="flex h-full flex-col rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
-                  <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-50">
-                    {plan.name}
-                  </h2>
-                  {plan.description ? (
-                    <p className="mt-2 line-clamp-4 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-                      {plan.description}
+        <div className="mt-14">
+          {errorMessage ? (
+            <div
+              role="alert"
+              className="rounded-(--radius-card) border border-danger/30 bg-danger-surface px-5 py-5 text-sm text-fg"
+            >
+              <p className="font-semibold text-danger">読み込みエラー</p>
+              <p className="mt-2 whitespace-pre-wrap text-muted">
+                {errorMessage}
+              </p>
+              <p className="mt-4 text-xs text-faint">
+                `.env.local` の `STRIPE_SECRET_KEY`（`sk_test_...`）と、Stripe
+                ダッシュボードのプロジェクトが一致しているか確認してください。
+              </p>
+            </div>
+          ) : plans.length === 0 ? (
+            <div className="rounded-(--radius-card) border border-dashed border-border bg-surface/60 px-8 py-16 text-center backdrop-blur-sm">
+              <p className="font-medium text-fg">表示できるプランがありません</p>
+              <p className="mx-auto mt-2 max-w-md text-sm text-muted">
+                Product と recurring の Price を作成し、アクティブにしてください。
+              </p>
+            </div>
+          ) : (
+            <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {plans.map((plan) => (
+                <li key={plan.priceId}>
+                  <article className="flex h-full flex-col rounded-(--radius-card) border border-border bg-surface/80 p-6 shadow-[0_1px_0_0_color-mix(in_oklab,var(--border)_70%,transparent)] backdrop-blur-sm transition-[border-color,box-shadow] hover:border-faint hover:shadow-[0_18px_48px_-28px_color-mix(in_oklab,var(--fg)_28%,transparent)]">
+                    <h2 className="text-base font-semibold tracking-tight text-fg">
+                      {plan.name}
+                    </h2>
+                    {plan.description ? (
+                      <p className="mt-2 line-clamp-4 text-sm leading-relaxed text-muted">
+                        {plan.description}
+                      </p>
+                    ) : null}
+                    <div className="mt-8 flex flex-1 flex-col gap-0.5">
+                      <p className="text-2xl font-semibold tracking-tight text-fg">
+                        {plan.amountLabel}
+                      </p>
+                      <p className="text-sm text-muted">{plan.intervalLabel}</p>
+                    </div>
+                    <p className="mt-8 font-mono text-[11px] leading-normal text-faint">
+                      {plan.priceId}
                     </p>
-                  ) : null}
-                  <div className="mt-6 flex flex-1 flex-col gap-1">
-                    <p className="text-2xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
-                      {plan.amountLabel}
-                    </p>
-                    <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                      {plan.intervalLabel}
-                    </p>
-                  </div>
-                  <p className="mt-6 font-mono text-[11px] text-zinc-400 dark:text-zinc-500">
-                    {plan.priceId}
-                  </p>
-                </article>
-              </li>
-            ))}
-          </ul>
-        )}
-      </main>
-    </div>
+                  </article>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
+    </main>
   );
 }
