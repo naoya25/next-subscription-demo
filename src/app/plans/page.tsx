@@ -1,5 +1,6 @@
-import { listSubscriptionPlans } from "@/lib/subscription-plans";
 import type { Metadata } from "next";
+import { PlanCheckoutButton } from "@/components/plan-checkout-button";
+import { listSubscriptionPlans } from "@/lib/subscription-plans";
 
 export const metadata: Metadata = {
   title: "プラン一覧",
@@ -8,7 +9,14 @@ export const metadata: Metadata = {
 
 export const dynamic = "force-dynamic";
 
-export default async function PlansPage() {
+type PlansPageProps = {
+  searchParams: Promise<{ canceled?: string }>;
+};
+
+export default async function PlansPage({ searchParams }: PlansPageProps) {
+  const query = await searchParams;
+  const canceled = query.canceled === "1";
+
   let plans: Awaited<ReturnType<typeof listSubscriptionPlans>> = [];
   let errorMessage: string | null = null;
 
@@ -38,6 +46,15 @@ export default async function PlansPage() {
             がここに並びます。商品や価格を変えたあと、再読み込みで反映されます。
           </p>
         </header>
+
+        {canceled ? (
+          <div
+            role="status"
+            className="mt-8 rounded-(--radius-card) border border-border bg-surface/80 px-4 py-3 text-sm text-muted backdrop-blur-sm"
+          >
+            決済をキャンセルしました。別のプランを選び直せます。
+          </div>
+        ) : null}
 
         <div className="mt-14">
           {errorMessage ? (
@@ -83,9 +100,10 @@ export default async function PlansPage() {
                       </p>
                       <p className="text-sm text-muted">{plan.intervalLabel}</p>
                     </div>
-                    <p className="mt-8 font-mono text-[11px] leading-normal text-faint">
+                    <p className="mt-4 font-mono text-[11px] leading-normal text-faint">
                       {plan.priceId}
                     </p>
+                    <PlanCheckoutButton priceId={plan.priceId} />
                   </article>
                 </li>
               ))}
